@@ -23,6 +23,7 @@ const db = createConnection({
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '',
     database: process.env.DB_NAME || 'restaurent_db',
+    port:3306,
   });
 
 // Connect to MySQL

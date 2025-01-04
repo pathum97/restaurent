@@ -4,27 +4,21 @@ services:
     image: mysql:latest
     container_name: mysql
     ports:
-      - "8080:8080"
+      - "8080:3306"
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
       MYSQL_DATABASE: restaurent_db
-    command: --max_allowed_packet=64M --wait_timeout=28800 --interactive_timeout=28800
     volumes:
       - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      retries: 5
-      start_period: 10s
-      timeout: 5s
 
   backend:
     build:
       context: ./backend
     container_name: backend
     ports:
-      - "8081:8081"
+      - "8081:8082"
     environment:
+      DB_PORT: 3306
       DB_HOST: mysql     
       DB_USER: root
       DB_PASS: ""
@@ -37,6 +31,7 @@ services:
       context: ./frontend
     container_name: frontend
     ports:
-      - "3000:3000"
+      - "3000:3001"
+
 volumes:
   mysql_data:
